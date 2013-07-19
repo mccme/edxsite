@@ -77,7 +77,7 @@
           <h1>
             ${course.number}: ${get_course_about_section(course, "title")}
             % if not self.theme_enabled():
-              <a href="${reverse('university_profile', args=[course.org])}">${get_course_about_section(course, "university")}</a>
+              <a href="#">${get_course_about_section(course, "university")}</a>
             % endif
           </h1>
         </hgroup>
