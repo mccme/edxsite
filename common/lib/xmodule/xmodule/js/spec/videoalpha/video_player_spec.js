@@ -759,7 +759,8 @@
 
       it('set the player volume', function() {
         player.setVolume(60);
-        expect(Number(player.getVolume().toFixed(1)).toEqual(0.6);
+        //expect(Number(player.getVolume()).toFixed(1)).toEqual(0.6);
+        expect(player.getVolume()).toEqual(0.6);
       });
     });
   });
