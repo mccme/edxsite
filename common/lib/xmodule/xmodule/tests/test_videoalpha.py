@@ -97,9 +97,9 @@ class VideoAlphaModuleTest(LogicTest):
         model_data = {'location': location}
         descriptor = VideoAlphaDescriptor(system, model_data)
         descriptor.youtube_id_0_75 = 'izygArpw-Qo'
-        descriptor.youtube_id_1_00 = 'p2Q6BrNhdh8'
+        descriptor.youtube_id_1_0 = 'p2Q6BrNhdh8'
         descriptor.youtube_id_1_25 = '1EeWXzPdhSA'
-        descriptor.youtube_id_1_50 = 'rABDYkeK0x8'
+        descriptor.youtube_id_1_5 = 'rABDYkeK0x8'
         expected = "0.75:izygArpw-Qo,1.00:p2Q6BrNhdh8,1.25:1EeWXzPdhSA,1.50:rABDYkeK0x8"
         self.assertEqual(_create_youtube_string(descriptor), expected)
 
@@ -113,7 +113,7 @@ class VideoAlphaModuleTest(LogicTest):
         model_data = {'location': location}
         descriptor = VideoAlphaDescriptor(system, model_data)
         descriptor.youtube_id_0_75 = 'izygArpw-Qo'
-        descriptor.youtube_id_1_00 = 'p2Q6BrNhdh8'
+        descriptor.youtube_id_1_0 = 'p2Q6BrNhdh8'
         descriptor.youtube_id_1_25 = '1EeWXzPdhSA'
         expected = "0.75:izygArpw-Qo,1.00:p2Q6BrNhdh8,1.25:1EeWXzPdhSA"
         self.assertEqual(_create_youtube_string(descriptor), expected)
@@ -143,14 +143,15 @@ class VideoAlphaDescriptorImportTestCase(unittest.TestCase):
         system = DummySystem(load_error_modules=True)
         descriptor = VideoAlphaDescriptor(system, model_data)
         self.assertEquals(descriptor.youtube_id_0_75, 'izygArpw-Qo')
-        self.assertEquals(descriptor.youtube_id_1_00, 'p2Q6BrNhdh8')
+        self.assertEquals(descriptor.youtube_id_1_0, 'p2Q6BrNhdh8')
         self.assertEquals(descriptor.youtube_id_1_25, '1EeWXzPdhSA')
-        self.assertEquals(descriptor.youtube_id_1_50, 'rABDYkeK0x8')
+        self.assertEquals(descriptor.youtube_id_1_5, 'rABDYkeK0x8')
         self.assertEquals(descriptor.show_captions, False)
         self.assertEquals(descriptor.start_time, 1.0)
         self.assertEquals(descriptor.end_time, 60)
         self.assertEquals(descriptor.track, 'http://www.example.com/track')
-        self.assertEquals(descriptor.sources, ['http://www.example.com/source.mp4', 'http://www.example.com/source.ogg'])
+        self.assertEquals(descriptor.source, 'http://www.example.com/source.mp4')
+        self.assertEquals(descriptor.html5_sources, ['http://www.example.com/source.mp4', 'http://www.example.com/source.ogg'])
         self.assertEquals(descriptor.data, '')
 
     def test_from_xml(self):
@@ -167,14 +168,15 @@ class VideoAlphaDescriptorImportTestCase(unittest.TestCase):
         '''
         output = VideoAlphaDescriptor.from_xml(xml_data, module_system)
         self.assertEquals(output.youtube_id_0_75, 'izygArpw-Qo')
-        self.assertEquals(output.youtube_id_1_00, 'p2Q6BrNhdh8')
+        self.assertEquals(output.youtube_id_1_0, 'p2Q6BrNhdh8')
         self.assertEquals(output.youtube_id_1_25, '1EeWXzPdhSA')
-        self.assertEquals(output.youtube_id_1_50, 'rABDYkeK0x8')
+        self.assertEquals(output.youtube_id_1_5, 'rABDYkeK0x8')
         self.assertEquals(output.show_captions, False)
         self.assertEquals(output.start_time, 1.0)
         self.assertEquals(output.end_time, 60)
         self.assertEquals(output.track, 'http://www.example.com/track')
-        self.assertEquals(output.sources, ['http://www.example.com/source.mp4'])
+        self.assertEquals(output.source, 'http://www.example.com/source.mp4')
+        self.assertEquals(output.html5_sources, ['http://www.example.com/source.mp4'])
         self.assertEquals(output.data, '')
 
     def test_from_xml_missing_attributes(self):
@@ -193,14 +195,15 @@ class VideoAlphaDescriptorImportTestCase(unittest.TestCase):
         '''
         output = VideoAlphaDescriptor.from_xml(xml_data, module_system)
         self.assertEquals(output.youtube_id_0_75, '')
-        self.assertEquals(output.youtube_id_1_00, 'p2Q6BrNhdh8')
+        self.assertEquals(output.youtube_id_1_0, 'p2Q6BrNhdh8')
         self.assertEquals(output.youtube_id_1_25, '1EeWXzPdhSA')
-        self.assertEquals(output.youtube_id_1_50, '')
+        self.assertEquals(output.youtube_id_1_5, '')
         self.assertEquals(output.show_captions, True)
         self.assertEquals(output.start_time, 0.0)
         self.assertEquals(output.end_time, 0.0)
         self.assertEquals(output.track, 'http://www.example.com/track')
-        self.assertEquals(output.sources, ['http://www.example.com/source.mp4'])
+        self.assertEquals(output.source, 'http://www.example.com/source.mp4')
+        self.assertEquals(output.html5_sources, ['http://www.example.com/source.mp4'])
         self.assertEquals(output.data, '')
 
     def test_from_xml_no_attributes(self):
@@ -211,14 +214,15 @@ class VideoAlphaDescriptorImportTestCase(unittest.TestCase):
         xml_data = '<videoalpha></videoalpha>'
         output = VideoAlphaDescriptor.from_xml(xml_data, module_system)
         self.assertEquals(output.youtube_id_0_75, '')
-        self.assertEquals(output.youtube_id_1_00, '')
+        self.assertEquals(output.youtube_id_1_0, '')
         self.assertEquals(output.youtube_id_1_25, '')
-        self.assertEquals(output.youtube_id_1_50, '')
+        self.assertEquals(output.youtube_id_1_5, '')
         self.assertEquals(output.show_captions, True)
         self.assertEquals(output.start_time, 0.0)
         self.assertEquals(output.end_time, 0.0)
         self.assertEquals(output.track, '')
-        self.assertEquals(output.sources, [])
+        self.assertEquals(output.source, '')
+        self.assertEquals(output.html5_sources, [])
         self.assertEquals(output.data, '')
 
 
@@ -235,14 +239,14 @@ class VideoAlphaExportTestCase(unittest.TestCase):
         desc = VideoAlphaDescriptor(module_system, {'location': location})
 
         desc.youtube_id_0_75 = 'izygArpw-Qo'
-        desc.youtube_id_1_00 = 'p2Q6BrNhdh8'
+        desc.youtube_id_1_0 = 'p2Q6BrNhdh8'
         desc.youtube_id_1_25 = '1EeWXzPdhSA'
-        desc.youtube_id_1_50 = 'rABDYkeK0x8'
+        desc.youtube_id_1_5 = 'rABDYkeK0x8'
         desc.show_captions = False
         desc.start_time = 1.0
         desc.end_time = 60
         desc.track = 'http://www.example.com/track'
-        desc.sources = ['http://www.example.com/source.mp4', 'http://www.example.com/source.ogg']
+        desc.html5_sources = ['http://www.example.com/source.mp4', 'http://www.example.com/source.ogg']
 
         xml = desc.export_to_xml(None)  # We don't use the `resource_fs` parameter
         expected = dedent('''\

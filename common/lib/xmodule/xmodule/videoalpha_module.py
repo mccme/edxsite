@@ -51,7 +51,7 @@ class VideoAlphaFields(object):
         default=True
     )
     #  TODO (pfogg): Do we want to show these to the user if HTML5 sources are preferred?
-    youtube_id_1_00 = String(
+    youtube_id_1_0 = String(
         help="This is the Youtube ID reference for the normal speed video.",
         display_name="Default Speed",
         scope=Scope.settings,
@@ -69,7 +69,7 @@ class VideoAlphaFields(object):
         scope=Scope.settings,
         default=""
     )
-    youtube_id_1_50 = String(
+    youtube_id_1_5 = String(
         help="The Youtube ID for the 1.5x speed video.",
         display_name="Speed: 1.5x",
         scope=Scope.settings,
@@ -87,7 +87,13 @@ class VideoAlphaFields(object):
         scope=Scope.settings,
         default=0.0
     )
-    sources = List(
+    source = String(
+        help="The external URL to download the video. This appears as a link beneath the video.",
+        display_name="Download Video",
+        scope=Scope.settings,
+        default=""
+    )
+    html5_sources = List(
         help="A comma-separated list of filenames to be used with HTML5 video.",
         display_name="Video Sources",
         scope=Scope.settings,
@@ -159,8 +165,8 @@ class VideoAlphaModule(VideoAlphaFields, XModule):
             caption_asset_path = "/static/subs/"
 
         get_ext = lambda filename: filename.rpartition('.')[-1]
-        sources = {get_ext(src): src for src in self.sources}
-        sources['main'] = self.sources[0]
+        sources = {get_ext(src): src for src in self.html5_sources}
+        sources['main'] = self.source
 
         return self.system.render_template('videoalpha.html', {
             'youtube_streams': _create_youtube_string(self),
@@ -240,7 +246,7 @@ class VideoAlphaDescriptor(VideoAlphaFields, MetadataOnlyEditingDescriptor):
             if value:
                 xml.set(key, str(value))
 
-        for source in self.sources:
+        for source in self.html5_sources:
             ele = etree.Element('source')
             ele.set('src', source)
             xml.append(ele)
@@ -294,8 +300,11 @@ class VideoAlphaDescriptor(VideoAlphaFields, MetadataOnlyEditingDescriptor):
             if attr == 'youtube':
                 speeds = VideoAlphaDescriptor._parse_youtube(value)
                 for speed, youtube_id in speeds.items():
+                    # should have made these youtube_id_1_00 for
+                    # cleanliness, but hindsight doesn't need glasses
+                    normalized_speed = speed[:-1] if speed.endswith('0') else speed
                     if youtube_id != '':
-                        model_data['youtube_id_{0}'.format(speed.replace('.', '_'))] = youtube_id
+                        model_data['youtube_id_{0}'.format(normalized_speed.replace('.', '_'))] = youtube_id
             else:
                 #  Convert XML attrs into Python values.
                 if attr in conversions:
@@ -304,7 +313,8 @@ class VideoAlphaDescriptor(VideoAlphaFields, MetadataOnlyEditingDescriptor):
 
         sources = xml.findall('source')
         if sources:
-            model_data['sources'] = [ele.get('src') for ele in sources]
+            model_data['html5_sources'] = [ele.get('src') for ele in sources]
+            model_data['source'] = model_data['html5_sources'][0]
 
         track = xml.find('track')
         if track is not None:
@@ -336,9 +346,9 @@ def _create_youtube_string(module):
     """
     youtube_ids = [
         module.youtube_id_0_75,
-        module.youtube_id_1_00,
+        module.youtube_id_1_0,
         module.youtube_id_1_25,
-        module.youtube_id_1_50
+        module.youtube_id_1_5
     ]
     youtube_speeds = ['0.75', '1.00', '1.25', '1.50']
     return ','.join([':'.join(pair)
