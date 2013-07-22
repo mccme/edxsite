@@ -1,5 +1,5 @@
 (function() {
-  xdescribe('VideoCaptionAlpha', function() {
+  describe('VideoCaptionAlpha', function() {
     var state, videoPlayer, videoCaption, videoSpeedControl;
 
     function initialize() {
@@ -19,6 +19,7 @@
       YT.Player = void 0;
       $.fn.scrollTo.reset();
       $('.subtitles').remove();
+      $('source').remove();
     });
 
     describe('constructor', function() {
