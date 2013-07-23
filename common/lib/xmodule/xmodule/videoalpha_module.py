@@ -24,7 +24,7 @@ from xmodule.editing_module import MetadataOnlyEditingDescriptor
 from xmodule.modulestore.mongo import MongoModuleStore
 from xmodule.modulestore.django import modulestore
 from xmodule.contentstore.content import StaticContent
-from xblock.core import Scope, String, Boolean, Float, List
+from xblock.core import Scope, String, Boolean, Float, List, Integer
 
 import datetime
 import time
@@ -39,7 +39,7 @@ class VideoAlphaFields(object):
         default="Video Alpha",
         scope=Scope.settings
     )
-    position = String(
+    position = Integer(
         help="Current position in the video",
         scope=Scope.user_state,
         default=0
@@ -296,7 +296,16 @@ class VideoAlphaDescriptor(VideoAlphaFields, MetadataOnlyEditingDescriptor):
             'end_time': VideoAlphaDescriptor._parse_time
         }
 
+        # VideoModule and VideoAlphaModule use different names for
+        # these attributes -- need to convert between them
+        video_compat = {
+            'from': 'start_time',
+            'to': 'end_time'
+        }
+
         for attr, value in xml.items():
+            if attr in video_compat:
+                attr = video_compat[attr]
             if attr == 'youtube':
                 speeds = VideoAlphaDescriptor._parse_youtube(value)
                 for speed, youtube_id in speeds.items():

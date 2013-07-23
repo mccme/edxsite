@@ -15,6 +15,7 @@ the course, section, subsection, unit, etc.
 
 from xmodule.modulestore import Location
 from xmodule.videoalpha_module import VideoAlphaDescriptor, _create_youtube_string
+from xmodule.video_module import VideoDescriptor
 from . import LogicTest
 from .test_import import DummySystem
 
@@ -224,6 +225,60 @@ class VideoAlphaDescriptorImportTestCase(unittest.TestCase):
         self.assertEquals(output.source, '')
         self.assertEquals(output.html5_sources, [])
         self.assertEquals(output.data, '')
+
+    def test_old_video_format(self):
+        """
+        Test backwards compatibility with VideoModule's XML format.
+        """
+        module_system = DummySystem(load_error_modules=True)
+        xml_data = """
+            <videoalpha display_name="Test Video"
+                   youtube="1.0:p2Q6BrNhdh8,0.75:izygArpw-Qo,1.25:1EeWXzPdhSA,1.5:rABDYkeK0x8"
+                   show_captions="false"
+                   from="00:00:01"
+                   to="00:01:00">
+              <source src="http://www.example.com/source.mp4"/>
+              <track src="http://www.example.com/track"/>
+            </videoalpha>
+        """
+        output = VideoAlphaDescriptor.from_xml(xml_data, module_system)
+        self.assertEquals(output.youtube_id_0_75, 'izygArpw-Qo')
+        self.assertEquals(output.youtube_id_1_0, 'p2Q6BrNhdh8')
+        self.assertEquals(output.youtube_id_1_25, '1EeWXzPdhSA')
+        self.assertEquals(output.youtube_id_1_5, 'rABDYkeK0x8')
+        self.assertEquals(output.show_captions, False)
+        self.assertEquals(output.start_time, 1.0)
+        self.assertEquals(output.end_time, 60)
+        self.assertEquals(output.track, 'http://www.example.com/track')
+        self.assertEquals(output.source, 'http://www.example.com/source.mp4')
+        self.assertEquals(output.html5_sources, ['http://www.example.com/source.mp4'])
+        self.assertEquals(output.data, '')
+
+    def test_old_video_data(self):
+        module_system = DummySystem(load_error_modules=True)
+        xml_data = """
+            <video display_name="Test Video"
+                   youtube="1.0:p2Q6BrNhdh8,0.75:izygArpw-Qo,1.25:1EeWXzPdhSA,1.5:rABDYkeK0x8"
+                   show_captions="false"
+                   from="00:00:01"
+                   to="00:01:00">
+              <source src="http://www.example.com/source.mp4"/>
+              <track src="http://www.example.com/track"/>
+            </video>
+        """
+        video = VideoDescriptor.from_xml(xml_data, module_system)
+        video_alpha = VideoAlphaDescriptor(module_system, video._model_data)
+        self.assertEquals(video_alpha.youtube_id_0_75, 'izygArpw-Qo')
+        self.assertEquals(video_alpha.youtube_id_1_0, 'p2Q6BrNhdh8')
+        self.assertEquals(video_alpha.youtube_id_1_25, '1EeWXzPdhSA')
+        self.assertEquals(video_alpha.youtube_id_1_5, 'rABDYkeK0x8')
+        self.assertEquals(video_alpha.show_captions, False)
+        self.assertEquals(video_alpha.start_time, 1.0)
+        self.assertEquals(video_alpha.end_time, 60)
+        self.assertEquals(video_alpha.track, 'http://www.example.com/track')
+        self.assertEquals(video_alpha.source, 'http://www.example.com/source.mp4')
+        self.assertEquals(video_alpha.html5_sources, ['http://www.example.com/source.mp4'])
+        self.assertEquals(video_alpha.data, '')
 
 
 class VideoAlphaExportTestCase(unittest.TestCase):
