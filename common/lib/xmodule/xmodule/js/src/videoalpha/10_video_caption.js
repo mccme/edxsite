@@ -2,7 +2,7 @@
 
 // VideoCaption module.
 define(
-'videoalpha/display/video_caption.js',
+'videoalpha/10_video_caption.js',
 [],
 function () {
 
