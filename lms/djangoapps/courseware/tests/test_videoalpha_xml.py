@@ -18,7 +18,7 @@ import unittest
 
 from django.conf import settings
 
-from xmodule.videoalpha_module import VideoAlphaDescriptor, VideoAlphaModule, _create_youtube_string
+from xmodule.videoalpha_module import VideoAlphaDescriptor, _create_youtube_string
 from xmodule.modulestore import Location
 from xmodule.tests import get_test_system
 
@@ -50,14 +50,14 @@ class VideoAlphaFactory(object):
         """Method return VideoAlpha Xmodule instance."""
         location = Location(["i4x", "edX", "videoalpha", "default",
                              "SampleProblem1"])
-        model_data = {'data': VideoAlphaFactory.sample_problem_xml_youtube}
+        model_data = {'data': VideoAlphaFactory.sample_problem_xml_youtube,
+                      'location': location}
 
         system = get_test_system()
         system.render_template = lambda template, context: context
 
         descriptor = VideoAlphaDescriptor(system, model_data)
 
-        VideoAlphaModule.location = location
         module = descriptor.xmodule(system)
 
         return module
