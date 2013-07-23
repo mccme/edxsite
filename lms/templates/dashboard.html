@@ -51,7 +51,7 @@
                function(data) {
                  if (data.success) {
                    $("#change_email_title").html("${_('Please verify your new email')}"));
-                   $("#change_email_form").html("<p>${_('You'll receive a confirmation in your in-box. Please click the link in the email to confirm the email change.')}</p>");
+                   $("#change_email_form").html("<p>${_('You\'ll receive a confirmation in your in-box. Please click the link in the email to confirm the email change.')}</p>");
                  } else {
                    $("#change_email_error").html(data.error).stop().css("display", "block");
                  }
@@ -198,7 +198,7 @@
                     <strong>${_("Your registration for the Pearson exam has been rejected. Please {link_start}see your registration status details{link_end}.").format(
                       link_start='<a href="{url}" id="exam_register_link">'.format(url=testcenter_register_target),
                       link_end='</a>')}</strong>
-                    ${_("Otherwise {link_start}contact edX at {email}{link_end} for further help.').format(
+                    ${_("Otherwise {link_start}contact edX at {email}{link_end} for further help.").format(
                       link_start='<a class="contact-link" href="mailto:{email}?subject=Pearson VUE Exam - {about} {number}">'.format(email="exam-help@edx.org", about=get_course_about_section(course, 'university'), number=course.number),
                       link_end='</a>',
                       email="exam-help@edx.org",
@@ -398,7 +398,7 @@
     <div id="change_name_body">
       <form id="change_name_form">
         <div id="change_name_error" class="modal-form-error"> </div>
-        <p>${_("To uphold the credibility of {platform} certificates, all name changes will be logged and recorded.".format(platform=settings.PLATFORM_NAME)}</p>
+        <p>${_("To uphold the credibility of {platform} certificates, all name changes will be logged and recorded.").format(platform=settings.PLATFORM_NAME)}</p>
         <br/>
         <fieldset>
           <div class="input-group">
