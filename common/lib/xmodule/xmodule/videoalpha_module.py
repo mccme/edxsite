@@ -94,7 +94,7 @@ class VideoAlphaFields(object):
         default=""
     )
     html5_sources = List(
-        help="A comma-separated list of filenames to be used with HTML5 video.",
+        help="A list of filenames to be used with HTML5 video.",
         display_name="Video Sources",
         scope=Scope.settings,
         default=[]
