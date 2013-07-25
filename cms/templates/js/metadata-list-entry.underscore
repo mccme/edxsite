@@ -1,14 +1,7 @@
 <div class="wrapper-comp-setting">
   <label class="label setting-label" for="<%= uniqueId %>"><%= model.get('display_name')%></label>
   <div id="<%= uniqueId %>" class="setting-list-wrapper">
-    <ol class="setting-input" type="text">
-       <% _.each(model.get('value'), function(ele, index) { %>
-       <li id="uniqueId-<%= index %>" data-index="<%= index %>">
-         <input class="input setting-input-list" value="<%= ele %>"/>
-         <a href="#" class="setting-remove">remove</a>
-       </li>
-       <% }); %>
-    </ol>
+    <ol class="setting-input" type="text"></ol>
   </div>
   <a href="#" class="setting-add">add</a>
   <button class="action setting-clear inactive" type="button" name="setting-clear" value="<%= gettext("Clear") %>" data-tooltip="<%= gettext("Clear") %>">

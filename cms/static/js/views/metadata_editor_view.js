@@ -349,13 +349,16 @@ CMS.Views.Metadata.List = CMS.Views.Metadata.AbstractEditor.extend({
 
     addEntry: function(event) {
         event.preventDefault();
-        this.setValueInEditor(this.model.getValue().concat(['']))
+        // We don't call updateModel here since it's bound to the
+        // change event
+        var list = this.model.get('value') || [];
+        this.setValueInEditor(list.concat(['']))
     },
 
     removeEntry: function(event) {
         event.preventDefault();
         var entry = $(event.currentTarget).siblings().val();
-        this.setValueInEditor(_.without(this.model.getValue(), entry));
+        this.setValueInEditor(_.without(this.model.get('value'), entry));
         this.updateModel();
     }
 });
