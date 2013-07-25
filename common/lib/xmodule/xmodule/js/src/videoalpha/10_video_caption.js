@@ -109,27 +109,27 @@ function () {
     }
 
     function fetchCaption() {
-        var _this = this, jQueryObject;
+        var _this = this;
 
         this.videoCaption.hideCaptions(this.hide_captions);
 
-        jQueryObject = $.getWithPrefix(this.videoCaption.captionURL(), function(captions) {
-            _this.videoCaption.captions = captions.text;
-            _this.videoCaption.start = captions.start;
-            _this.videoCaption.loaded = true;
+        $.ajaxWithPrefix({
+            url: _this.videoCaption.captionURL(),
+            notifyOnError: false,
+            success: function(captions) {
+                _this.videoCaption.captions = captions.text;
+                _this.videoCaption.start = captions.start;
+                _this.videoCaption.loaded = true;
 
-            if (onTouchBasedDevice()) {
-                _this.videoCaption.subtitlesEl.find('li').html(
-                    'Caption will be displayed when you start playing the video.'
-                );
-            } else {
-                _this.videoCaption.renderCaption();
+                if (onTouchBasedDevice()) {
+                    _this.videoCaption.subtitlesEl.find('li').html(
+                        'Caption will be displayed when you start playing the video.'
+                    );
+                } else {
+                    _this.videoCaption.renderCaption();
+                }
             }
         });
-
-        if (typeof jQueryObject === 'undefined') {
-            console.error('Subtitles not found. Upload subtitles to server!');
-        }
     }
 
     function captionURL() {
