@@ -179,6 +179,9 @@ function (HTML5Video) {
         }
     }
 
+    // This function gets the video's current play position in time
+    // (currentTime) and its duration.
+    // It is called at a regular interval when the video is playing (see below).
     function update() {
         this.videoPlayer.currentTime = this.videoPlayer.player.getCurrentTime();
 
@@ -187,11 +190,6 @@ function (HTML5Video) {
         }
     }
 
-    // We request the reloading of the video in the case when YouTube is in
-    // Flash player mode, or when we are in Firefox, and the new speed is 1.0.
-    // The second case is necessary to avoid the bug where in Firefox speed
-    // switching to 1.0 in HTML5 player mode is handled incorrectly by YouTube
-    // API.
     function onSpeedChange(newSpeed, updateCookie) {
         if (this.currentPlayerMode === 'flash') {
             this.videoPlayer.currentTime = Time.convert(
@@ -218,7 +216,12 @@ function (HTML5Video) {
             !(this.browserIsFirefox && newSpeed === '1.0' && this.videoType === 'youtube')
         ) {
             this.videoPlayer.player.setPlaybackRate(newSpeed);
-        } else { // if (this.currentPlayerMode === 'flash') {
+        } else {
+            // We request the reloading of the video in the case when YouTube is in
+            // Flash player mode, or when we are in Firefox, and the new speed is 1.0.
+            // The second case is necessary to avoid the bug where in Firefox speed
+            // switching to 1.0 in HTML5 player mode is handled incorrectly by YouTube
+            // API.
             if (this.videoPlayer.isPlaying()) {
                 this.videoPlayer.player.loadVideoById(this.youtubeId(), this.videoPlayer.currentTime);
             } else {
@@ -229,6 +232,10 @@ function (HTML5Video) {
         }
     }
 
+    // Every 200 ms, if the video is playing, we call the function update, via 
+    // clearInterval. This interval is called updateInterval.
+    // It is created on a onPlay event. Cleared on a onPause event.
+    // Reinitialized on a onSeek event.
     function onSeek(params) {
         this.videoPlayer.log(
             'seek_video',
@@ -322,14 +329,20 @@ function (HTML5Video) {
 
                 return;
             } else if (availablePlaybackRates.length > 1) {
-                // We need to synchronize available frame rates with the ones that the user specified.
+                // We need to synchronize available frame rates with the ones
+                // that the user specified.
 
                 baseSpeedSubs = this.videos['1.0'];
                 _this = this;
+                // this.videos is a dictionary containing various frame rates 
+                // and their associated subs.
+
+                // First clear the dictionary.
                 $.each(this.videos, function(index, value) {
                     delete _this.videos[index];
                 });
                 this.speeds = [];
+                // Recreate it with the supplied frame rates.
                 $.each(availablePlaybackRates, function(index, value) {
                     _this.videos[value.toFixed(2).replace(/\.00$/, '.0')] = baseSpeedSubs;
 
