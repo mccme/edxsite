@@ -12,7 +12,7 @@ function (HTML5Video) {
 
         makeFunctionsPublic(state);
         renderElements(state);
-        bindHandlers();
+        // No callbacks to DOM events (click, mousemove, etc.).
     };
 
     // ***************************************************************
@@ -123,19 +123,12 @@ function (HTML5Video) {
         }
     }
 
-    // function bindHandlers(state)
-    //
-    //     Bind any necessary function callbacks to DOM events (click, mousemove, etc.).
-    function bindHandlers() {
-
-    }
-
-    // function reinitAsFlash(state)
+    // function restartUsingFlash(state)
     //
     //     When we are about to play a YouTube video in HTML5 mode and discover that we only
     //     have one available playback rate, we will switch to Flash mode. In Flash speed
-    //     switching is done by reloading videos recorded at differtn frame rates.
-    function reinitAsFlash(state) {
+    //     switching is done by reloading videos recorded at different frame rates.
+    function restartUsingFlash(state) {
         // Remove from the page current iFrame with HTML5 video.
         state.videoPlayer.player.destroy();
 
@@ -149,7 +142,7 @@ function (HTML5Video) {
         // Removed configuration option that requests the HTML5 mode.
         delete state.videoPlayer.playerVars.html5;
 
-        // Reuqest for the creation of a new Flash player
+        // Request for the creation of a new Flash player
         state.videoPlayer.player = new YT.Player(state.id, {
             'playerVars': state.videoPlayer.playerVars,
             'videoId': state.youtubeId(),
@@ -325,7 +318,7 @@ function (HTML5Video) {
         availablePlaybackRates = this.videoPlayer.player.getAvailablePlaybackRates();
         if ((this.currentPlayerMode === 'html5') && (this.videoType === 'youtube')) {
             if (availablePlaybackRates.length === 1) {
-                reinitAsFlash(this);
+                restartUsingFlash(this);
 
                 return;
             } else if (availablePlaybackRates.length > 1) {
@@ -424,10 +417,8 @@ function (HTML5Video) {
 
         if (this.videoType === 'youtube') {
             logInfo.code = this.youtubeId();
-        } else {
-            if (this.videoType === 'html5') {
+        } else  if (this.videoType === 'html5') {
                 logInfo.code = 'html5';
-            }
         }
 
         Logger.log(eventName, logInfo);
