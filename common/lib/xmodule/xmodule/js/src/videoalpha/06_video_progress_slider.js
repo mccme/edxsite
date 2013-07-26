@@ -19,7 +19,7 @@ function () {
 
         makeFunctionsPublic(state);
         renderElements(state);
-        bindHandlers(state);
+        // No callbacks to DOM events (click, mousemove, etc.).
     };
 
     // ***************************************************************
@@ -52,13 +52,6 @@ function () {
             buildSlider(state);
             buildHandle(state);
         }
-    }
-
-    // function bindHandlers(state)
-    //
-    //     Bind any necessary function callbacks to DOM events (click, mousemove, etc.).
-    function bindHandlers(state) {
-
     }
 
     function buildSlider(state) {
