@@ -353,6 +353,7 @@ CMS.Views.Metadata.List = CMS.Views.Metadata.AbstractEditor.extend({
         // change event
         var list = this.model.get('value') || [];
         this.setValueInEditor(list.concat(['']))
+        this.$el.find('.create-setting').addClass('is-disabled');
     },
 
     removeEntry: function(event) {
@@ -360,5 +361,12 @@ CMS.Views.Metadata.List = CMS.Views.Metadata.AbstractEditor.extend({
         var entry = $(event.currentTarget).siblings().val();
         this.setValueInEditor(_.without(this.model.get('value'), entry));
         this.updateModel();
+        this.$el.find('.create-setting').removeClass('is-disabled');
+    },
+
+    // Update the model, and remember to update the button state
+    updateModel: function() {
+        CMS.Views.Metadata.AbstractEditor.prototype.updateModel.apply(this, arguments);
+        this.$el.find('.create-setting').removeClass('is-disabled');
     }
 });

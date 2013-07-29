@@ -320,6 +320,7 @@ describe "Test Metadata Editor", ->
       beforeEach ->
         listModel = new CMS.Models.Metadata(listEntry)
         @listView = new CMS.Views.Metadata.List({model: listModel})
+        @el = @listView.$el
 
       it "returns the initial value upon initialization", ->
         assertValueInView(@listView, ['the first display value', 'the second'])
@@ -335,10 +336,24 @@ describe "Test Metadata Editor", ->
 
       it "can add an entry", ->
         expect(@listView.model.get('value').length).toEqual(2)
-        @listView.$el.find('.create-setting').click()
-        expect(@listView.$el.find('input.input').length).toEqual(3)
+        @el.find('.create-setting').click()
+        expect(@el.find('input.input').length).toEqual(3)
 
       it "can remove an entry", ->
         expect(@listView.model.get('value').length).toEqual(2)
-        @listView.$el.find('.remove-setting').first().click()
+        @el.find('.remove-setting').first().click()
         expect(@listView.model.get('value').length).toEqual(1)
+
+      it "only allows one blank entry at a time", ->
+        expect(@el.find('input').length).toEqual(2)
+        @el.find('.create-setting').click()
+        @el.find('.create-setting').click()
+        expect(@el.find('input').length).toEqual(3)
+
+      it "re-enables the add setting button after entering a new value", ->
+        expect(@el.find('input').length).toEqual(2)
+        @el.find('.create-setting').click()
+        expect(@el.find('.create-setting')).toHaveClass('is-disabled')
+        @el.find('input').last().val('third setting')
+        @el.find('input').last().trigger('change')
+        expect(@el.find('.create-setting')).not.toHaveClass('is-disabled')
