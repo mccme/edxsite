@@ -93,7 +93,7 @@ function () {
         this.videoProgressSlider.frozen = true;
         this.videoProgressSlider.updateTooltip(ui.value);
 
-        this.trigger(['videoPlayer', 'onSlideSeek'], {'type': 'onSlideSeek', 'time': ui.value});
+        this.trigger('videoPlayer.onSlideSeek', {'type': 'onSlideSeek', 'time': ui.value});
     }
 
     function onChange(event, ui) {
@@ -105,7 +105,7 @@ function () {
 
         this.videoProgressSlider.frozen = true;
 
-        this.trigger(['videoPlayer', 'onSlideSeek'], {'type': 'onSlideSeek', 'time': ui.value});
+        this.trigger('videoPlayer.onSlideSeek', {'type': 'onSlideSeek', 'time': ui.value});
 
         setTimeout(function() {
             _this.videoProgressSlider.frozen = false;
