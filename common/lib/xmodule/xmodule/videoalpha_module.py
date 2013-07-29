@@ -50,7 +50,6 @@ class VideoAlphaFields(object):
         scope=Scope.settings,
         default=True
     )
-    #  TODO (pfogg): Do we want to show these to the user if HTML5 sources are preferred?
     youtube_id_1_0 = String(
         help="This is the Youtube ID reference for the normal speed video.",
         display_name="Youtube ID",
@@ -192,6 +191,8 @@ class VideoAlphaDescriptor(VideoAlphaFields, MetadataOnlyEditingDescriptor):
 
     def __init__(self, *args, **kwargs):
         super(VideoAlphaDescriptor, self).__init__(*args, **kwargs)
+        # For backwards compatibility -- if we've got XML data, parse
+        # it out and set the metadata fields
         if self.data:
             model_data = VideoAlphaDescriptor._parse_video_xml(self.data)
             self._model_data.update(model_data)
@@ -200,9 +201,7 @@ class VideoAlphaDescriptor(VideoAlphaFields, MetadataOnlyEditingDescriptor):
     @property
     def non_editable_metadata_fields(self):
         non_editable_fields = super(MetadataOnlyEditingDescriptor, self).non_editable_metadata_fields
-        non_editable_fields.extend([VideoAlphaFields.start_time,
-                                    VideoAlphaFields.end_time])
-        return non_editable_fields
+        return non_editable_fields + [VideoAlphaFields.start_time, VideoAlphaFields.end_time]
 
     @classmethod
     def from_xml(cls, xml_data, system, org=None, course=None):
