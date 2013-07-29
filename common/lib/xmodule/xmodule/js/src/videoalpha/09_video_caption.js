@@ -65,7 +65,7 @@ function () {
         this.el.find('.video-controls .secondary-controls').append(this.videoCaption.hideSubtitlesEl);
 
         this.el.find('.subtitles').css({
-            maxHeight: this.el.find('.video-wrapper').height() - 5
+            maxHeight: this.el.find('.video-wrapper').height()
         });
 
         this.videoCaption.fetchCaption();
