@@ -134,8 +134,8 @@ function (VideoPlayer) {
         ) {
             VideoPlayer(state);
         } else {
-            onPlayerReadyFunc = (this.videoType === 'youtube') ? 'onYouTubePlayerAPIReady' : 'onHTML5PlayerAPIReady';
-            window[onPlayerReadyFunc] = _.bind(window.VideoPlayer, state);
+            onPlayerReadyFunc = (state.videoType === 'youtube') ? 'onYouTubePlayerAPIReady' : 'onHTML5PlayerAPIReady';
+            window[onPlayerReadyFunc] = _.bind(VideoPlayer, window, state);
         }
     }
 
