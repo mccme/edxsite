@@ -320,6 +320,7 @@ CMS.Views.Metadata.List = CMS.Views.Metadata.AbstractEditor.extend({
         "click .setting-clear" : "clear",
         "keypress .setting-input" : "showClearButton",
         "change input" : "updateModel",
+        "input input" : "enableAdd",
         "click .create-setting" : "addEntry",
         "click .remove-setting" : "removeEntry"
     },
@@ -364,9 +365,7 @@ CMS.Views.Metadata.List = CMS.Views.Metadata.AbstractEditor.extend({
         this.$el.find('.create-setting').removeClass('is-disabled');
     },
 
-    // Update the model, and remember to update the button state
-    updateModel: function() {
-        CMS.Views.Metadata.AbstractEditor.prototype.updateModel.apply(this, arguments);
+    enableAdd: function() {
         this.$el.find('.create-setting').removeClass('is-disabled');
     }
 });

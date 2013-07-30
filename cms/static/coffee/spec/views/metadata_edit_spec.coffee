@@ -355,5 +355,5 @@ describe "Test Metadata Editor", ->
         @el.find('.create-setting').click()
         expect(@el.find('.create-setting')).toHaveClass('is-disabled')
         @el.find('input').last().val('third setting')
-        @el.find('input').last().trigger('change')
+        @el.find('input').last().trigger('input')
         expect(@el.find('.create-setting')).not.toHaveClass('is-disabled')
