@@ -11,7 +11,7 @@ function (HTML5Video) {
         state.videoPlayer = {};
 
         _makeFunctionsPublic(state);
-        _renderElements(state);
+        _initialize(state);
         // No callbacks to DOM events (click, mousemove, etc.).
     };
 
@@ -45,12 +45,12 @@ function (HTML5Video) {
         state.videoPlayer.onVolumeChange              = _.bind(onVolumeChange, state);
     }
 
-    // function _renderElements(state)
+    // function _initialize(state)
     //
     //     Create any necessary DOM elements, attach them, and set their initial configuration. Also
     //     make the created DOM elements available via the 'state' object. Much easier to work this
     //     way - you don't have to do repeated jQuery element selects.
-    function _renderElements(state) {
+    function _initialize(state) {
         var youTubeId;
 
         if (state.videoType === 'youtube') {
