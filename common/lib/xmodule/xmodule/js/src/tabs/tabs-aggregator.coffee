@@ -101,7 +101,8 @@ class @TabsEditingDescriptor
       # init and save data from previous tab
       window.TabsEditingDescriptorModel.updateValue(@html_id, previousTab)
 
-      # save data from editor in previous tab to editor in current tab here.
+      # Save data from editor in previous tab to editor in current tab here.
+      # (to be implemented when there is a use case for this functionality)
 
       # call onswitch
       onSwitchFunction = window.TabsEditingDescriptorModel.modules[@html_id].tabSwitch[$currentTarget.text()]
