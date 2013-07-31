@@ -34,10 +34,10 @@ function (
     window.VideoAlpha = function (element) {
         var state;
 
-        // Stop befferization of previous video on sequence change.
-        // It needs in case when multiple video tags with the same src cannot
-        // play together. Second tag waiting when first video will be fully loaded.
-        // That's why we aborting bufferization forcibly.
+        // Stop bufferization of previous video on sequence change.
+        // Problem: multiple video tags with the same src cannot
+        // play together. The second tag waiting when first video will be fully loaded.
+        // That's why we abort bufferization forcibly.
         $(element).closest('.sequence').bind('sequence:change', function(e){
             if (previousState !== null && typeof previousState.videoPlayer !== 'undefined') {
                 previousState.stopBuffering();
