@@ -178,7 +178,7 @@ class VideoAlphaModule(VideoAlphaFields, XModule):
             # isn't on the filesystem
             'data_dir': getattr(self, 'data_dir', None),
             'caption_asset_path': caption_asset_path,
-            'show_captions': self.show_captions,
+            'show_captions': json.dumps(self.show_captions),
             'start': self.start_time,
             'end': self.end_time,
             'autoplay': settings.MITX_FEATURES.get('AUTOPLAY_VIDEOS', True)

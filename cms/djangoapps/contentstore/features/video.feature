@@ -38,14 +38,12 @@ Feature: Video Component
     Then I can modify the display name
     And my display name change is persisted on save
 
-  @skip
   Scenario: Video Alpha captions are hidden when "show captions" is false
     Given I have created a Video Alpha component
     And I have set "show captions" to False
-    Then when I view the video it does not show the captions
+    Then when I view the videoalpha it does not show the captions
 
-  @skip
   Scenario: Video Alpha captions are shown when "show captions" is true
     Given I have created a Video Alpha component
     And I have set "show captions" to True
-    Then when I view the video it does show the captions
+    Then when I view the videoalpha it does show the captions
