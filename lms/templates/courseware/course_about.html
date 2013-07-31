@@ -65,7 +65,7 @@
   <script src="${static.url('js/course_info.js')}"></script>
 </%block>
 
-<%block name="title"><title>About ${course.number}</title></%block>
+<%block name="title"><title>About ${course.display_number_with_default}</title></%block>
 
 <section class="course-info">
   <header class="course-profile">
@@ -74,7 +74,7 @@
       <section class="intro">
         <hgroup>
           <h1>
-            ${course.number}: ${get_course_about_section(course, "title")}
+            ${course.display_number_with_default}: ${get_course_about_section(course, "title")}
             % if not self.theme_enabled():
               <a href="${reverse('university_profile', args=[course.org])}">${get_course_about_section(course, "university")}</a>
             % endif
@@ -86,13 +86,13 @@
 	              %if show_courseware_link:
                     <a href="${course_target}">
                 %endif
-                <span class="register disabled">You are registered for this course (${course.number})</span>
+                <span class="register disabled">You are registered for this course (${course.display_number_with_default})</span>
                 %if show_courseware_link:
                     <strong>View Courseware</strong>
                     </a>
                 %endif
         %else:
-            <a href="#" class="register">Register for ${course.number}</a>
+            <a href="#" class="register">Register for ${course.display_number_with_default}</a>
             <div id="register_error"></div>
         %endif
         </div>
@@ -161,7 +161,7 @@
         </header>
 
         <ol class="important-dates">
-          <li><div class="icon course-number"></div><p>Course Number</p><span class="course-number">${course.number}</span></li>
+          <li><div class="icon course-number"></div><p>Course Number</p><span class="course-number">${course.display_number_with_default}</span></li>
           <li><div class="icon start"></div><p>Classes Start</p><span class="start-date">${course.start_date_text}</span></li>
 
             ## We plan to ditch end_date (which is not stored in course metadata),

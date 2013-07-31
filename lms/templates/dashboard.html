@@ -211,11 +211,11 @@
 
           % if course.id in show_courseware_links_for:
             <a href="${course_target}" class="cover">
-              <img src="${course_image_url(course)}" alt="${course.number} ${course.display_name_with_default} Cover Image" />
+              <img src="${course_image_url(course)}" alt="${course.display_number_with_default} ${course.display_name_with_default} Cover Image" />
             </a>
           % else:
             <div class="cover">
-              <img src="${course_image_url(course)}" alt="${course.number} ${course.display_name_with_default} Cover Image" />
+              <img src="${course_image_url(course)}" alt="${course.display_number_with_default} ${course.display_name_with_default} Cover Image" />
             </div>
           % endif
 
@@ -233,9 +233,9 @@
               <h2 class="university">${get_course_about_section(course, 'university')}</h2>
               <h3>
                 % if course.id in show_courseware_links_for:
-                  <a href="${course_target}">${course.number} ${course.display_name_with_default}</a>
+                  <a href="${course_target}">${course.display_number_with_default} ${course.display_name_with_default}</a>
                 % else:
-                  <span>${course.number} ${course.display_name_with_default}</span>
+                  <span>${course.display_number_with_default} ${course.display_name_with_default}</span>
                 % endif
               </h3>
             </hgroup>
@@ -264,7 +264,7 @@
                     % endif
                     % if  registration.is_rejected:
                 <div class="message message-status is-shown exam-schedule">
-                  <p class="message-copy"><strong>Your registration for the Pearson exam has been rejected. Please <a href="${testcenter_register_target}" id="exam_register_link">see your registration status details</a></strong>. Otherwise <a class="contact-link" href="mailto:exam-help@edx.org?subject=Pearson VUE Exam - ${get_course_about_section(course, 'university')} ${course.number}">contact edX at exam-help@edx.org</a> for further help.</p>
+                  <p class="message-copy"><strong>Your registration for the Pearson exam has been rejected. Please <a href="${testcenter_register_target}" id="exam_register_link">see your registration status details</a></strong>. Otherwise <a class="contact-link" href="mailto:exam-help@edx.org?subject=Pearson VUE Exam - ${get_course_about_section(course, 'university')} ${course.display_number_with_default}">contact edX at exam-help@edx.org</a> for further help.</p>
                 </div>
                     % endif
                    	% if not registration.is_accepted and not registration.is_rejected:

@@ -7,7 +7,7 @@
 
 <%inherit file="../mktg_iframe.html" />
 
-<%block name="title"><title>About ${course.number}</title></%block>
+<%block name="title"><title>About ${course.display_number_with_default}</title></%block>
 
 <%block name="bodyclass">view-partial-mktgregister</%block>
 
@@ -51,7 +51,7 @@
             <div class="action is-registered">You Are Registered</div>
           %endif
         %elif allow_registration:
-          <a class="action action-register register" href="#">Register for <strong>${course.number}</strong></a>
+          <a class="action action-register register" href="#">Register for <strong>${course.display_number_with_default}</strong></a>
         %else:
           <div class="action registration-closed is-disabled">Registration Is Closed</div>
         %endif
