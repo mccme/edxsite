@@ -401,6 +401,8 @@ function () {
             // In case of html5 autoshowing subtitles,
             // we ajdust height of subs, by height of scrollbar
             height = this.videoControl.el.height() + this.videoControl.sliderEl.height() / 2;
+            // height of videoControl does not contain height of slider.
+            // (css is set to absolute, to avoid yanking when slider autochanges its height) 
          }
         this.videoCaption.subtitlesEl.css({
             maxHeight: this.videoCaption.captionHeight() - height
